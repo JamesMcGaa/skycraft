@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\main_gun_proj_controller.cs" />
      <Compile Include="Assets\skyship_controller.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/Users/jemcgaa/projects/skycraft/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
