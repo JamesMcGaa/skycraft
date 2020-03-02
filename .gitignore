@@ -8,3 +8,11 @@
 *.meta
 #But not source file with postfix. which is everything but a folder
 !*.*.meta
+
+# Ignore Everything
+/*
+
+# Except for these:
+!/.gitignore
+!/Assets
+!/ProjectSettings
