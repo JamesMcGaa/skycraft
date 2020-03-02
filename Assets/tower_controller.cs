@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class tower_controller : MonoBehaviour
 {
-    private bool placed; // will become a better data structure representing what towers have been placed and where
-    private GameObject placedTower; // will become a better data structure containing placed towers
 
-    public GameObject tower;
+    public GameObject bullet;
+    public float next_fire = -1f;
+    public float fire_rate = .1f;
+
     // Start is called before the first frame update
     void Start()
     {
-      placed = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-      if (Input.GetKeyUp("space") && !placed) {
-        placedTower = Instantiate(tower, transform.position, Quaternion.identity);
+      if (next_fire < 0 || Time.time > next_fire) {
+          next_fire = Time.time + fire_rate;
+          Vector3 bullet_pos = transform.position;
+          bullet_pos.y += .5f;
+          Instantiate(bullet, bullet_pos, Quaternion.identity);
       }
     }
 }
