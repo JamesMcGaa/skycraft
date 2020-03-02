@@ -5,7 +5,8 @@ using UnityEngine;
 public class bullet_controller : MonoBehaviour
 {
 
-    public GameObject bullet;
+    public float bullet_velocity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,8 @@ public class bullet_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+      Vector3 pos = transform.position;
+      pos.y += bullet_velocity;
+      transform.position = pos;
     }
 }
