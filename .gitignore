@@ -9,5 +9,5 @@
 #But not source file with postfix. which is everything but a folder
 !*.*.meta
 
-*.DS_Store
 *.csproj
+*.DS_Store
