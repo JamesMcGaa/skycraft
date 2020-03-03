@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class skyship_controller : MonoBehaviour
 {
-    private bool placed; // will become better data structure
+    private bool frontPlaced;
+    private bool leftPlaced;
+    private bool rightPlaced;
     private GameObject frontTower;
+    private GameObject leftTower;
+    private GameObject rightTower;
     public Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
 
 
@@ -18,12 +22,17 @@ public class skyship_controller : MonoBehaviour
     // public float next_fire = -1f;
     // public float fire_rate = .1f;
 
+    public float MIN_X = -11.5f;
+    public float MIN_Y = -6f;
+    public float MAX_X = 11.5f;
+    public float MAX_Y = 6f;
+
     public GameObject tower;
 
     // Start is called before the first frame update
     void Start()
     {
-      placed = false;
+      frontPlaced = false;
     }
 
     // Update is called once per frame
@@ -77,12 +86,29 @@ public class skyship_controller : MonoBehaviour
          transform.position += velocity;
         }
 
-        if (Input.GetKey("space") && !placed) {
-          placed = true;
+        //bounds
+        Vector3 clipped = transform.position;
+        if(clipped.x > MAX_X){
+            clipped.x = MAX_X;
+        }
+        if(clipped.y > MAX_Y){
+            clipped.y = MAX_Y;
+        }
+        if(clipped.x < MIN_X){
+            clipped.x = MIN_X;
+        }
+        if(clipped.y < MIN_Y){
+            clipped.y = MIN_Y;
+        }
+        transform.position = clipped;
+
+
+        if (Input.GetKey("space") && !frontPlaced) {
+          frontPlaced = true;
           frontTower = Instantiate(tower, transform.position + frontTowerOffset, Quaternion.identity);
         }
 
-        if (placed) {
+        if (frontPlaced) {
           frontTower.transform.position = transform.position + frontTowerOffset;
         }
 
@@ -93,5 +119,9 @@ public class skyship_controller : MonoBehaviour
         //     main_bullet_pos.y += .5f;
         //     Instantiate(mainGunProj, main_bullet_pos, Quaternion.identity);
         // }
+     }
+
+     void UpdateTowerPos() {
+
      }
 }
