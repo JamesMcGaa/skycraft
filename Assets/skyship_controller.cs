@@ -24,16 +24,17 @@ public class skyship_controller : MonoBehaviour
     // public float next_fire = -1f;
     // public float fire_rate = .1f;
 
-    public float MIN_X = -11.5f;
-    public float MIN_Y = -6f;
-    public float MAX_X = 11.5f;
-    public float MAX_Y = 6f;
+    public static float MIN_X = -11.5f;
+    public static float MIN_Y = -6f;
+    public static float MAX_X = 11.5f;
+    public static float MAX_Y = 6f;
 
     public GameObject tower;
 
     // Start is called before the first frame update
     void Start()
     {
+    QualitySettings.vSyncCount = 1;
       frontPlaced = false;
     }
 
