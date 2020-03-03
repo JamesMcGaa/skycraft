@@ -143,10 +143,6 @@ MonoBehaviour:
   hp: 100
   velocity: {x: 0, y: 0, z: 0}
   max_velocity: 6
-  MIN_X: -11.5
-  MIN_Y: -6
-  MAX_X: 11.5
-  MAX_Y: 6
   tower: {fileID: 816593781059515446, guid: 72ac8a3c66e894a2d895c03e12fe507d, type: 3}
 --- !u!1 &519420028
 GameObject:
@@ -311,7 +307,7 @@ PrefabInstance:
     - target: {fileID: 8719643212794268530, guid: 00ff6cad9ab1f4f5f95cb44fd8fe4e40,
         type: 3}
       propertyPath: m_Name
-      value: enemy8
+      value: ExampleEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00ff6cad9ab1f4f5f95cb44fd8fe4e40, type: 3}
@@ -348,7 +344,7 @@ GameObject:
   - component: {fileID: 1845428974}
   - component: {fileID: 1845428973}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: EnemyControllerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
