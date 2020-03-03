@@ -6,11 +6,12 @@ public class bullet_controller : MonoBehaviour
 {
 
     public float bullet_velocity;
+    public const float BULLET_SURVIVAL_TIME = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+      Destroy(gameObject, BULLET_SURVIVAL_TIME);
     }
 
     // Update is called once per frame

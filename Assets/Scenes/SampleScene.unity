@@ -144,6 +144,10 @@ MonoBehaviour:
   hp: 100
   velocity: {x: 0, y: 0, z: 0}
   max_velocity: 6
+  MIN_X: -11.5
+  MIN_Y: -6
+  MAX_X: 11.5
+  MAX_Y: 6
   tower: {fileID: 816593781059515446, guid: 72ac8a3c66e894a2d895c03e12fe507d, type: 3}
 --- !u!1 &519420028
 GameObject:
@@ -198,7 +202,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.331822
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

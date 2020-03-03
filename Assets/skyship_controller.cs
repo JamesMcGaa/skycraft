@@ -22,6 +22,11 @@ public class skyship_controller : MonoBehaviour
     // public float next_fire = -1f;
     // public float fire_rate = .1f;
 
+    public float MIN_X = -11.5f;
+    public float MIN_Y = -6f;
+    public float MAX_X = 11.5f;
+    public float MAX_Y = 6f;
+
     public GameObject tower;
 
     // Start is called before the first frame update
@@ -80,6 +85,23 @@ public class skyship_controller : MonoBehaviour
         else{
          transform.position += velocity;
         }
+
+        //bounds
+        Vector3 clipped = transform.position;
+        if(clipped.x > MAX_X){
+            clipped.x = MAX_X;
+        }
+        if(clipped.y > MAX_Y){
+            clipped.y = MAX_Y;
+        }
+        if(clipped.x < MIN_X){
+            clipped.x = MIN_X;
+        }
+        if(clipped.y < MIN_Y){
+            clipped.y = MIN_Y;
+        }
+        transform.position = clipped;
+
 
         if (Input.GetKey("space") && !frontPlaced) {
           frontPlaced = true;
