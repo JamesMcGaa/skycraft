@@ -10,7 +10,9 @@ public class skyship_controller : MonoBehaviour
     private GameObject frontTower;
     private GameObject leftTower;
     private GameObject rightTower;
-    public Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
+    private Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
+    private Vector3 leftTowerOffset = new Vector3(-.4f, .13f, 0f);
+    private Vector3 rightTowerOffset = new Vector3(.4f, .13f, 0f);
 
 
     public float acceleration = 4f;
@@ -105,11 +107,13 @@ public class skyship_controller : MonoBehaviour
 
         if (Input.GetKey("space") && !frontPlaced) {
           frontPlaced = true;
-          frontTower = Instantiate(tower, transform.position + frontTowerOffset, Quaternion.identity);
+          leftTower = Instantiate(tower, transform.position + leftTowerOffset, Quaternion.identity);
+          rightTower = Instantiate(tower, transform.position + rightTowerOffset, Quaternion.identity);
         }
 
         if (frontPlaced) {
-          frontTower.transform.position = transform.position + frontTowerOffset;
+          rightTower.transform.position = transform.position + rightTowerOffset;
+          leftTower.transform.position = transform.position + leftTowerOffset;
         }
 
         //SHOOTING
