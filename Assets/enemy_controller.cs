@@ -17,9 +17,9 @@ public class enemy_controller : MonoBehaviour
         //ENEMY 1///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",10}, {"ar",1}, {"dmg",1}, {"spd",3}})
+        	new Dictionary<string, int> {{"hp",100}, {"ar",1}, {"dmg",1}, {"spd",3}})
         );
-        
+
 
         pathTypeDict.Add(0, new Vector3[]{
     		new Vector3(0,.9f,0),
@@ -39,7 +39,7 @@ public class enemy_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public static Vector3 processWaypt(Vector3 pt){

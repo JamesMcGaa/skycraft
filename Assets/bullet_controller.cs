@@ -6,6 +6,7 @@ public class bullet_controller : MonoBehaviour
 {
 
     public Vector3 bullet_velocity;
+    public int damage;
     public const float BULLET_SURVIVAL_TIME = 1f;
 
     // Start is called before the first frame update

@@ -71,12 +71,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 749dc8a9bbd2f4273883cd5deb49ac29, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8eb42178416124843936ff6fef07d0db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.69, y: 5.86}
+  m_Size: {x: 1.89, y: 4.9}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,5 +95,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 3931461120256483801, guid: faea70c09a1fd4712aac1fec063bbe2a, type: 3}
-  next_fire: -1
+  type: 0
   fire_rate: 0.1
