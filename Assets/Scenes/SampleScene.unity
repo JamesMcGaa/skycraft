@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ddee979d4cd04e6dba89b75ec8160cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollOffset: 0
+  scrollOffset: 23.55
 --- !u!212 &1665918738
 SpriteRenderer:
   m_ObjectHideFlags: 0
