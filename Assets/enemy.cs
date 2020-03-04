@@ -7,6 +7,7 @@ public class enemy : MonoBehaviour
     // Start is called before the first frame update
     public int enemyType;
     public Sprite sprite;
+    public GameObject explosion;
 
     public int pathType;
     public Vector3[] waypoints;
@@ -55,6 +56,7 @@ public class enemy : MonoBehaviour
         stats["hp"]--;
         if(stats["hp"] <= -40){
             Destroy(gameObject);
+            Instantiate(explosion, transform.position, Quaternion.identity);
         }
     }
 }
