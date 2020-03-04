@@ -7,9 +7,11 @@ public class enemy_controller : MonoBehaviour
     // Start is called before the first frame update
     public static Dictionary<int, enemy> enemyTypeDict;
     public static Dictionary<int, Vector3[]> pathTypeDict;
-
+    public GameObject enemyPrefab;
+    private Vector3 startingPos;
 
     void Awake(){
+      startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();
         pathTypeDict = new Dictionary<int, Vector3[]>();
 
@@ -33,13 +35,20 @@ public class enemy_controller : MonoBehaviour
 
     void Start()
     {
-
+      Spawn();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    void Spawn()
+    {
+      GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
+      enemy.GetComponent<enemy>().enemyType = 0;
+      Invoke("Spawn", 5f);
     }
 
     public static Vector3 processWaypt(Vector3 pt){

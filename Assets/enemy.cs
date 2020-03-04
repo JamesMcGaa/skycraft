@@ -10,11 +10,10 @@ public class enemy : MonoBehaviour
     public GameObject explosion;
 
     public int pathType;
-    public Vector3[] waypoints;
-
-    Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
-
+    public List<Vector3> waypoints = new List<Vector3>();
+    private Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
     private int curr_pt = 1;
+
     public enemy(int ty, int pathty){
         enemyType = ty;
         pathType = pathty;
@@ -22,20 +21,21 @@ public class enemy : MonoBehaviour
     //use this only for defining enemy archetypes
     public enemy(Sprite spr, Dictionary<string, int> sts){
         sprite = spr;
-        stats = sts;
+        stats = new Dictionary<string, int>(sts);
     }
 
     void Start()
     {
         enemy archetype = enemy_controller.enemyTypeDict[enemyType];
         sprite = archetype.sprite;
-        stats = archetype.stats;
+        stats = new Dictionary<string, int>(archetype.stats);
         print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
-        waypoints = enemy_controller.pathTypeDict[pathType];
-        for(int i=0; i < waypoints.Length; i++){
-            waypoints[i] = enemy_controller.processWaypt(waypoints[i]);
+        Vector3[] path = enemy_controller.pathTypeDict[pathType];
+        for(int i=0; i < path.Length; i++){
+            waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
+        print(waypoints[0]);
         transform.position = waypoints[0];
     }
 
@@ -44,7 +44,7 @@ public class enemy : MonoBehaviour
     {
         //have we reached the next checkpoint?
         transform.position = Vector3.MoveTowards(transform.position, waypoints[curr_pt], stats["spd"] * Time.deltaTime);
-        if(curr_pt < waypoints.Length - 1 && Vector3.Distance(transform.position, waypoints[curr_pt]) < 1e-2){
+        if(curr_pt < waypoints.Count - 1 && Vector3.Distance(transform.position, waypoints[curr_pt]) < 1e-2){
             curr_pt++;
         }
     }

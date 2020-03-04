@@ -145,5 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   sprite: {fileID: 0}
+  explosion: {fileID: 7968499751432089711, guid: 29e4c460a24af4ed4ac7f3d41598ed25,
+    type: 3}
   pathType: 0
   waypoints: []

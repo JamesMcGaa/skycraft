@@ -12,11 +12,16 @@ public class bullet_controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      // Destroy(gameObject, BULLET_SURVIVAL_TIME);
+      Move();
     }
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    void Move()
     {
       Vector3 pos = transform.position;
       pos += bullet_velocity;
@@ -24,6 +29,8 @@ public class bullet_controller : MonoBehaviour
       if(pos.y > skyship_controller.MAX_Y){
         Destroy(gameObject);
       }
+
+      Invoke("Move", .01f);
     }
 
 }
