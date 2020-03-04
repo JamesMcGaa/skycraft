@@ -34,7 +34,8 @@ public class tower_controller : MonoBehaviour
       switch (type) {
         case TOWER_TYPE.BASIC:
           bullet_pos.y += .5f;
-          Instantiate(bullet, bullet_pos, Quaternion.identity);
+          GameObject bullet0 = Instantiate(bullet, bullet_pos, Quaternion.identity);
+          bullet0.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.1f, 0f);
           break;
         case TOWER_TYPE.SHOTGUN:
           bullet_pos.y += .5f;

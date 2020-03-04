@@ -143,7 +143,10 @@ MonoBehaviour:
   hp: 100
   velocity: {x: 0, y: 0, z: 0}
   max_velocity: 6
-  tower: {fileID: 7560871904914945264, guid: c4b50f073847741d79db2ba8b2c4d58c, type: 3}
+  basicTower: {fileID: 816593781059515446, guid: 72ac8a3c66e894a2d895c03e12fe507d,
+    type: 3}
+  shottyTower: {fileID: 7560871904914945264, guid: c4b50f073847741d79db2ba8b2c4d58c,
+    type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

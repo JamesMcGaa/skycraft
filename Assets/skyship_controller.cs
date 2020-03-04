@@ -29,7 +29,8 @@ public class skyship_controller : MonoBehaviour
     public static float MAX_X = 11.5f;
     public static float MAX_Y = 6f;
 
-    public GameObject tower;
+    public GameObject basicTower;
+    public GameObject shottyTower;
 
     // Start is called before the first frame update
     void Start()
@@ -108,8 +109,12 @@ public class skyship_controller : MonoBehaviour
 
         if (Input.GetKey("space") && !frontPlaced) {
           frontPlaced = true;
-          leftTower = Instantiate(tower, transform.position + leftTowerOffset, Quaternion.identity);
-          rightTower = Instantiate(tower, transform.position + rightTowerOffset, Quaternion.identity);
+          leftTower = Instantiate(basicTower, transform.position + leftTowerOffset, Quaternion.identity);
+          rightTower = Instantiate(basicTower, transform.position + rightTowerOffset, Quaternion.identity);
+        } else if (Input.GetKey("s") && !frontPlaced) {
+          frontPlaced = true;
+          leftTower = Instantiate(shottyTower, transform.position + leftTowerOffset, Quaternion.identity);
+          rightTower = Instantiate(shottyTower, transform.position + rightTowerOffset, Quaternion.identity);
         }
 
         if (frontPlaced) {
