@@ -5,7 +5,7 @@ using UnityEngine;
 public class bullet_controller : MonoBehaviour
 {
 
-    public float bullet_velocity;
+    public Vector3 bullet_velocity;
     public const float BULLET_SURVIVAL_TIME = 1f;
 
     // Start is called before the first frame update
@@ -18,7 +18,7 @@ public class bullet_controller : MonoBehaviour
     void Update()
     {
       Vector3 pos = transform.position;
-      pos.y += bullet_velocity;
+      pos += bullet_velocity;
       transform.position = pos;
       if(pos.y > skyship_controller.MAX_Y){
         Destroy(gameObject);

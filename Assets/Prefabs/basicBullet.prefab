@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb2b789789414da4bf2b68cbf9c3dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet_velocity: 0.1
+
+bullet_velocity: {x: 0, y: 0.1, z: 0}
 --- !u!50 &-7596203464834922911
 Rigidbody2D:
   serializedVersion: 4
@@ -144,3 +145,4 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.11, y: 0.39}
   m_EdgeRadius: 0
+
