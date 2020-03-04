@@ -147,6 +147,10 @@ MonoBehaviour:
     type: 3}
   shottyTower: {fileID: 7560871904914945264, guid: c4b50f073847741d79db2ba8b2c4d58c,
     type: 3}
+  sniperTower: {fileID: 4226498597580416956, guid: 0cc829d3e1e664dcfbad065dfed723be,
+    type: 3}
+  doubleTower: {fileID: 4124563381387238951, guid: ca88a9b9503ed40289e27379acc9a6f7,
+    type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

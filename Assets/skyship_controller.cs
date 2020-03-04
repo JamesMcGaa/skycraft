@@ -31,6 +31,8 @@ public class skyship_controller : MonoBehaviour
 
     public GameObject basicTower;
     public GameObject shottyTower;
+    public GameObject sniperTower;
+    public GameObject doubleTower;
 
     // Start is called before the first frame update
     void Start()
@@ -107,14 +109,28 @@ public class skyship_controller : MonoBehaviour
         transform.position = clipped;
 
 
-        if (Input.GetKey("space") && !frontPlaced) {
+        if (Input.GetKey("1") && !frontPlaced) {
           frontPlaced = true;
           leftTower = Instantiate(basicTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(basicTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("s") && !frontPlaced) {
+        } else if (Input.GetKey("2") && !frontPlaced) {
           frontPlaced = true;
           leftTower = Instantiate(shottyTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(shottyTower, transform.position + rightTowerOffset, Quaternion.identity);
+        } else if (Input.GetKey("3") && !frontPlaced) {
+          frontPlaced = true;
+          leftTower = Instantiate(sniperTower, transform.position + leftTowerOffset, Quaternion.identity);
+          rightTower = Instantiate(sniperTower, transform.position + rightTowerOffset, Quaternion.identity);
+        } else if (Input.GetKey("4") && !frontPlaced) {
+          frontPlaced = true;
+          leftTower = Instantiate(doubleTower, transform.position + leftTowerOffset, Quaternion.identity);
+          rightTower = Instantiate(doubleTower, transform.position + rightTowerOffset, Quaternion.identity);
+        }
+
+        if (Input.GetKey("space") && frontPlaced) {
+          Destroy(leftTower);
+          Destroy(rightTower);
+          frontPlaced = false;
         }
 
         if (frontPlaced) {

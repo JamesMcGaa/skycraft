@@ -11,7 +11,7 @@ public class enemy : MonoBehaviour
 
     public int pathType;
     public Vector3[] waypoints;
-    
+
     Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
 
     private int curr_pt = 1;
@@ -52,9 +52,10 @@ public class enemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         print(stats["hp"]);
+        int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
         Destroy(collision.gameObject);
-        stats["hp"]--;
-        if(stats["hp"] <= -40){
+        stats["hp"]-= damage;
+        if(stats["hp"] <= 0){
             Destroy(gameObject);
             Instantiate(explosion, transform.position, Quaternion.identity);
         }
