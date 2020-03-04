@@ -7,6 +7,7 @@ public class enemy : MonoBehaviour
     // Start is called before the first frame update
     public int enemyType;
     public Sprite sprite;
+    public GameObject explosion;
 
     public int pathType;
     public Vector3[] waypoints;
@@ -17,7 +18,6 @@ public class enemy : MonoBehaviour
     public enemy(int ty, int pathty){
         enemyType = ty;
         pathType = pathty;
-        //everything should be loaded based off the type
     }
     //use this only for defining enemy archetypes
     public enemy(Sprite spr, Dictionary<string, int> sts){
@@ -46,6 +46,17 @@ public class enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, waypoints[curr_pt], stats["spd"] * Time.deltaTime);
         if(curr_pt < waypoints.Length - 1 && Vector3.Distance(transform.position, waypoints[curr_pt]) < 1e-2){
             curr_pt++;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        print(stats["hp"]);
+        Destroy(collision.gameObject);
+        stats["hp"]--;
+        if(stats["hp"] <= -40){
+            Destroy(gameObject);
+            Instantiate(explosion, transform.position, Quaternion.identity);
         }
     }
 }
