@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class skyship_controller : MonoBehaviour
 {
-    private bool frontPlaced;
-    private bool leftPlaced;
-    private bool rightPlaced;
-    private GameObject frontTower;
+    private bool placed;
     private GameObject leftTower;
     private GameObject rightTower;
     private Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
@@ -38,7 +35,7 @@ public class skyship_controller : MonoBehaviour
     void Start()
     {
     QualitySettings.vSyncCount = 1;
-      frontPlaced = false;
+      placed = false;
     }
 
     // Update is called once per frame
@@ -109,31 +106,31 @@ public class skyship_controller : MonoBehaviour
         transform.position = clipped;
 
 
-        if (Input.GetKey("1") && !frontPlaced) {
-          frontPlaced = true;
+        if (Input.GetKey("1") && !placed) {
+          placed = true;
           leftTower = Instantiate(basicTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(basicTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("2") && !frontPlaced) {
-          frontPlaced = true;
+        } else if (Input.GetKey("2") && !placed) {
+          placed = true;
           leftTower = Instantiate(shottyTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(shottyTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("3") && !frontPlaced) {
-          frontPlaced = true;
+        } else if (Input.GetKey("3") && !placed) {
+          placed = true;
           leftTower = Instantiate(sniperTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(sniperTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("4") && !frontPlaced) {
-          frontPlaced = true;
+        } else if (Input.GetKey("4") && !placed) {
+          placed = true;
           leftTower = Instantiate(doubleTower, transform.position + leftTowerOffset, Quaternion.identity);
           rightTower = Instantiate(doubleTower, transform.position + rightTowerOffset, Quaternion.identity);
         }
 
-        if (Input.GetKey("space") && frontPlaced) {
+        if (Input.GetKey("space") && placed) {
           Destroy(leftTower);
           Destroy(rightTower);
-          frontPlaced = false;
+          placed = false;
         }
 
-        if (frontPlaced) {
+        if (placed) {
           rightTower.transform.position = transform.position + rightTowerOffset;
           leftTower.transform.position = transform.position + leftTowerOffset;
         }
