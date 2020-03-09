@@ -17,15 +17,17 @@ public class enemy : MonoBehaviour
     private bool shooting;
     private GameObject shooter;
     public GameObject enemyTower;
-
+    private float scale = 1f;
     public enemy(int ty, int pathty){
         enemyType = ty;
         pathType = pathty;
     }
     //use this only for defining enemy archetypes
-    public enemy(Sprite spr, Dictionary<string, int> sts){
+    public enemy(Sprite spr, Dictionary<string, int> sts, float scalo = 1f){
         sprite = spr;
         stats = new Dictionary<string, int>(sts);
+        //print(scalo);
+        scale = scalo;
     }
 
     void Start()
@@ -33,6 +35,7 @@ public class enemy : MonoBehaviour
         enemy archetype = enemy_controller.enemyTypeDict[enemyType];
         sprite = archetype.sprite;
         stats = new Dictionary<string, int>(archetype.stats);
+        scale = archetype.scale;
         //print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
         Vector3[] path = enemy_controller.pathTypeDict[pathType];
@@ -40,7 +43,7 @@ public class enemy : MonoBehaviour
             waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
         transform.position = waypoints[0];
-
+        transform.localScale = new Vector3(scale,scale,0f);
         //set initial phase
         phase = UnityEngine.Random.Range(0f, 2f * (float)Math.PI);
     }
@@ -49,7 +52,7 @@ public class enemy : MonoBehaviour
     void Update()
     {
         //have we reached the next checkpoint?
-        phase += 0.01f;
+        phase += stats["spd"]/300f;
         if(Math.Abs(phase - 2*Math.PI) < .03){
             phase = 0;
         }
@@ -78,6 +81,7 @@ public class enemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         //print(stats["hp"]);
+        /*
         int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
         Destroy(collision.gameObject);
         stats["hp"]-= damage;
@@ -85,6 +89,7 @@ public class enemy : MonoBehaviour
             Destroy(gameObject);
             Instantiate(explosion, transform.position, Quaternion.identity);
         }
+        */
         
         if(collision.gameObject.GetComponent<bullet_controller>())
         {

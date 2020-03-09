@@ -1,31 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class enemy_generator : MonoBehaviour
 {
-	private static Dictionary<string, float> probabilities;
-	private static float sum = 0f;
+	private Dictionary<KeyValuePair<int,int>, float> probabilities = new Dictionary<KeyValuePair<int,int>, float>(); //<enemy_type, probabilityOfSpawn>
+	private float sum = 0f; //in case probabilities dont sum to 1
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    public static void set(string name, float to){
-    	if(probabilities.containsKey(name)){
-    		sum -= probabilities[name];
+    public void set(int enemyid, int pathid, float to){
+        KeyValuePair<int,int> pa = new KeyValuePair<int,int>(enemyid, pathid);
+    	if(probabilities.ContainsKey(pa)){
+    		sum -= probabilities[pa];
     	}
-    	probabilities[name] = to;
+    	probabilities[pa] = to;
     	sum += to;
     }
-    public static string getOutcome(){
-    	float myrand = (float)Random.NextDouble() * sum;
-    	foreach(var item in myDictionary)
+    public KeyValuePair<int,int> getOutcome(){
+    	float myrand = Random.Range(0.0f, 1.0f) * sum;
+    	foreach(var item in probabilities)
 		{
-		  string na = item.Key;
+		  KeyValuePair<int,int> na = item.Key;
 		  float myprob = item.Value;
-
+          if(myrand <= myprob){
+            return na;
+          }else{
+            myrand -= myprob;
+          }
 		}
+
+        return new KeyValuePair<int,int> (-1,-1);
     }
     // Update is called once per frame
     void Update()

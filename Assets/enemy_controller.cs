@@ -10,6 +10,8 @@ public class enemy_controller : MonoBehaviour
     public GameObject enemyPrefab;
     private Vector3 startingPos;
 
+    public enemy_generator wave1;
+
     void Awake(){
       startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();
@@ -19,7 +21,11 @@ public class enemy_controller : MonoBehaviour
         //ENEMIES///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}})
+        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}}, 1.5f)
+        );
+        enemyTypeDict.Add(1, new enemy(
+            Resources.Load<Sprite>("enemy2"),
+            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}}, .75f)
         );
         ///////////////////////////////
 
@@ -40,6 +46,11 @@ public class enemy_controller : MonoBehaviour
         });
         ///////////////////////////////
 
+        wave1 = new enemy_generator();
+        wave1.set(0,0,.1f);
+        wave1.set(0,1,.1f);
+        wave1.set(1,0,.4f);
+        wave1.set(1,1,.4f);
     }
 
 
@@ -57,8 +68,11 @@ public class enemy_controller : MonoBehaviour
 
     void Spawn()
     {
+        
       GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
-      enemy.GetComponent<enemy>().enemyType = 0;
+      KeyValuePair<int,int> enemyInfo = wave1.getOutcome();
+      enemy.GetComponent<enemy>().enemyType = enemyInfo.Key;
+      enemy.GetComponent<enemy>().pathType = enemyInfo.Value;
       Invoke("Spawn", 1f);
     }
 
