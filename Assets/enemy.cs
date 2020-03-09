@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class enemy : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -13,7 +13,7 @@ public class enemy : MonoBehaviour
     public List<Vector3> waypoints = new List<Vector3>();
     private Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
     private int curr_pt = 1;
-
+    private float phase = 0;
     public enemy(int ty, int pathty){
         enemyType = ty;
         pathType = pathty;
@@ -29,21 +29,28 @@ public class enemy : MonoBehaviour
         enemy archetype = enemy_controller.enemyTypeDict[enemyType];
         sprite = archetype.sprite;
         stats = new Dictionary<string, int>(archetype.stats);
-        print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
         Vector3[] path = enemy_controller.pathTypeDict[pathType];
         for(int i=0; i < path.Length; i++){
             waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
-        print(waypoints[0]);
         transform.position = waypoints[0];
+
+        //set initial phase
+        phase = UnityEngine.Random.Range(0f, 2f * (float)Math.PI);
     }
 
     // Update is called once per frame
     void Update()
     {
         //have we reached the next checkpoint?
+        phase += 0.01f;
+        if(Math.Abs(phase - 2*Math.PI) < .03){
+            phase = 0;
+        }
         transform.position = Vector3.MoveTowards(transform.position, waypoints[curr_pt], stats["spd"] * Time.deltaTime);
+        Vector3 twinkVec = new Vector3((float)Math.Cos(phase),(float)Math.Sin(phase),0) / 500;
+        transform.position = transform.position + twinkVec;
         if(curr_pt < waypoints.Count - 1 && Vector3.Distance(transform.position, waypoints[curr_pt]) < 1e-2){
             curr_pt++;
         }

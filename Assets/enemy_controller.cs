@@ -9,26 +9,37 @@ public class enemy_controller : MonoBehaviour
     public static Dictionary<int, Vector3[]> pathTypeDict;
     public GameObject enemyPrefab;
     private Vector3 startingPos;
-
+    
     void Awake(){
       startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();
         pathTypeDict = new Dictionary<int, Vector3[]>();
 
 
-        //ENEMY 1///////////////////////
+        //ENEMIES///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
         	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}})
         );
+        ///////////////////////////////
 
 
+
+
+        //PATHS///////////////////////
         pathTypeDict.Add(0, new Vector3[]{
     		new Vector3(0,.9f,0),
     		new Vector3(.9f,.9f,0),
-            new Vector3(0f,0f,0)
+            new Vector3(-1f,-1f,-1)
+        });
+
+        pathTypeDict.Add(1, new Vector3[]{
+            new Vector3(.9f, .9f, 0),
+            new Vector3(0, .9f, 0),
+            new Vector3(1.5f, -.5f,0)
         });
         ///////////////////////////////
+
     }
 
 
