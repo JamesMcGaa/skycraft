@@ -90,12 +90,5 @@ public class enemy : MonoBehaviour
             }
             
         }
-
-
-        
- 
-
-        
-        
     }
 }
