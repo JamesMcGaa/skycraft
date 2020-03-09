@@ -19,7 +19,7 @@ public class enemy_controller : MonoBehaviour
         //ENEMY 1///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}})
+        	new Dictionary<string, int> {{"hp",100}, {"ar",1}, {"dmg",1}, {"spd",3}})
         );
 
 

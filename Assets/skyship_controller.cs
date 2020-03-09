@@ -22,6 +22,7 @@ public struct tower_stats {
 public class skyship_controller : MonoBehaviour
 {
     private TOWER_TYPE placed = TOWER_TYPE.NULL;
+    private float lastUpgradedTime;
     private GameObject leftTower;
     private GameObject rightTower;
     private Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
@@ -80,6 +81,7 @@ public class skyship_controller : MonoBehaviour
     {
       QualitySettings.vSyncCount = 1;
       placed = TOWER_TYPE.NULL;
+      lastUpgradedTime = Time.time;
 
       upgradeLevels[TOWER_TYPE.BASIC] = 0;
       upgradeLevels[TOWER_TYPE.SHOTGUN] = 0;
@@ -98,15 +100,15 @@ public class skyship_controller : MonoBehaviour
       };
 
       upgradePaths[TOWER_TYPE.SHOTGUN] = new List<tower_stats> {
-        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 3, 1),
-        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 4, 2),
-        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 5, 3)
+        new tower_stats(TOWER_TYPE.SHOTGUN, .15f, shottyTower, shottyBullet, 3, 1),
+        new tower_stats(TOWER_TYPE.SHOTGUN, .12f, shottyTower, shottyBullet, 5, 2),
+        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 7, 4)
       };
 
       upgradePaths[TOWER_TYPE.SNIPER] = new List<tower_stats> {
         new tower_stats(TOWER_TYPE.SNIPER, .2f, sniperTower, sniperBullet, 1, 5),
-        new tower_stats(TOWER_TYPE.SNIPER, .15f, sniperTower, sniperBullet, 1, 10),
-        new tower_stats(TOWER_TYPE.SNIPER, .1f, sniperTower, sniperBullet, 1, 20)
+        new tower_stats(TOWER_TYPE.SNIPER, .2f, sniperTower, sniperBullet, 1, 20),
+        new tower_stats(TOWER_TYPE.SNIPER, .2f, sniperTower, sniperBullet, 1, 50)
       };
 
       upgradePaths[TOWER_TYPE.DOUBLE] = new List<tower_stats> {
@@ -191,8 +193,9 @@ public class skyship_controller : MonoBehaviour
           }
         }
 
-        if (Input.GetKey("u") && placed != TOWER_TYPE.NULL) {
+        if (Input.GetKey("u") && placed != TOWER_TYPE.NULL && (Time.time - lastUpgradedTime > 2.0f)) {
           UpgradeTower(placed);
+          lastUpgradedTime = Time.time;
         }
 
         if (Input.GetKey("space") && placed != TOWER_TYPE.NULL) {
