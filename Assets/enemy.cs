@@ -14,6 +14,10 @@ public class enemy : MonoBehaviour
     private Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
     private int curr_pt = 1;
 
+    private bool shooting;
+    private GameObject shooter;
+    public GameObject enemyTower;
+
     public enemy(int ty, int pathty){
         enemyType = ty;
         pathType = pathty;
@@ -29,14 +33,16 @@ public class enemy : MonoBehaviour
         enemy archetype = enemy_controller.enemyTypeDict[enemyType];
         sprite = archetype.sprite;
         stats = new Dictionary<string, int>(archetype.stats);
-        print(stats["hp"]);
+        //print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
         Vector3[] path = enemy_controller.pathTypeDict[pathType];
         for(int i=0; i < path.Length; i++){
             waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
-        print(waypoints[0]);
+        //print(waypoints[0]);
         transform.position = waypoints[0];
+
+        shooting = false;
     }
 
     // Update is called once per frame
@@ -47,17 +53,49 @@ public class enemy : MonoBehaviour
         if(curr_pt < waypoints.Count - 1 && Vector3.Distance(transform.position, waypoints[curr_pt]) < 1e-2){
             curr_pt++;
         }
+      if (Input.GetKey("e") && ! shooting)
+      {
+        shooter = Instantiate(enemyTower, transform.position, Quaternion.identity);
+        shooting = true;
+        print("enemy now shooting");
+      }
+      else if (Input.GetKey("r") && shooting) {
+        Destroy(shooter);
+        shooting = false;
+        print("stopping enemy shooting");
+      }
+        if (shooting) {
+            shooter.transform.position = transform.position;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        print(stats["hp"]);
-        int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
-        Destroy(collision.gameObject);
-        stats["hp"]-= damage;
-        if(stats["hp"] <= 0){
-            Destroy(gameObject);
-            Instantiate(explosion, transform.position, Quaternion.identity);
+        //print(stats["hp"]);
+
+        if(collision.gameObject.GetComponent<bullet_controller>())
+        {
+            int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
+            BULLET_TYPE type = collision.gameObject.GetComponent<bullet_controller>().type;
+            if(type == BULLET_TYPE.FRIENDLY)
+            {
+                Destroy(collision.gameObject);
+                stats["hp"]-= damage;
+                if(stats["hp"] <= 0)
+                {
+                    Destroy(gameObject);
+                    if(shooting){Destroy(shooter);}
+                    Instantiate(explosion, transform.position, Quaternion.identity);
+                }
+            }
+            
         }
+
+
+        
+ 
+
+        
+        
     }
 }

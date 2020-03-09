@@ -10,6 +10,8 @@ public class enemy_controller : MonoBehaviour
     public GameObject enemyPrefab;
     private Vector3 startingPos;
 
+
+
     void Awake(){
       startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();

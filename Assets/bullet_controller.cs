@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BULLET_TYPE {
+  FRIENDLY,
+  ENEMY,
+};
 public class bullet_controller : MonoBehaviour
 {
 
     public Vector3 bullet_velocity;
     public int damage;
+    public BULLET_TYPE type;
     public const float BULLET_SURVIVAL_TIME = 1f;
 
     // Start is called before the first frame update
@@ -26,7 +31,7 @@ public class bullet_controller : MonoBehaviour
       Vector3 pos = transform.position;
       pos += bullet_velocity;
       transform.position = pos;
-      if(pos.y > skyship_controller.MAX_Y){
+      if(pos.y > skyship_controller.MAX_Y || pos.y < skyship_controller.MIN_Y){
         Destroy(gameObject);
       }
 

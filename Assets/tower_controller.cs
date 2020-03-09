@@ -7,7 +7,8 @@ public enum TOWER_TYPE {
   BASIC,
   SHOTGUN,
   SNIPER,
-  DOUBLE
+  DOUBLE,
+  ENEMY
 };
 
 public class tower_controller : MonoBehaviour
@@ -78,6 +79,14 @@ public class tower_controller : MonoBehaviour
       bullet.GetComponent<bullet_controller>().damage = bullet_damage;
     }
 
+    void ShootEnemy() {
+      Vector3 bullet_pos = transform.position;
+      bullet_pos.y -= .5f;
+      GameObject bullet7 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet7.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, -0.1f, 0f);
+      bullet7.GetComponent<bullet_controller>().damage = 2;
+    }
+
     void Shoot() {
       switch (type) {
         case TOWER_TYPE.BASIC:
@@ -91,6 +100,9 @@ public class tower_controller : MonoBehaviour
           break;
         case TOWER_TYPE.DOUBLE:
           ShootDouble();
+          break;
+        case TOWER_TYPE.ENEMY:
+          ShootEnemy();
           break;
         default:
           break;
