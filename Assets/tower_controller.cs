@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum TOWER_TYPE {
+  NULL,
   BASIC,
   SHOTGUN,
   SNIPER,
@@ -12,7 +13,9 @@ public enum TOWER_TYPE {
 public class tower_controller : MonoBehaviour
 {
     private bool left;
-    public GameObject bullet;
+    public int numBullets;
+    public GameObject bulletPrefab;
+    public int bullet_damage;
     public TOWER_TYPE type;
     public float fire_rate = .1f;
 
@@ -20,20 +23,6 @@ public class tower_controller : MonoBehaviour
     void Start()
     {
       left = true;
-      switch (type) {
-        case TOWER_TYPE.BASIC:
-          fire_rate = .1f;
-          break;
-        case TOWER_TYPE.SHOTGUN:
-          fire_rate = .1f;
-          break;
-        case TOWER_TYPE.SNIPER:
-          fire_rate = .3f;
-          break;
-        case TOWER_TYPE.DOUBLE:
-          fire_rate = .05f;
-          break;
-        }
       Shoot();
     }
 
@@ -45,46 +34,65 @@ public class tower_controller : MonoBehaviour
       // }
     }
 
-    void Shoot() {
+    void ShootBasic() {
       Vector3 bullet_pos = transform.position;
+      bullet_pos.y += .5f;
+      GameObject bullet = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.1f, 0f);
+      bullet.GetComponent<bullet_controller>().damage = bullet_damage;
+    }
+
+    void ShootShotgun() {
+      Vector3 bullet_pos = transform.position;
+      bullet_pos.y += .5f;
+      GameObject bullet1 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet1.GetComponent<bullet_controller>().bullet_velocity = new Vector3(-0.01f, 0.1f, 0f);
+      bullet1.GetComponent<bullet_controller>().damage = bullet_damage;
+      GameObject bullet2 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet2.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0f, 0.1f, 0f);
+      bullet2.GetComponent<bullet_controller>().damage = bullet_damage;
+      GameObject bullet3 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet3.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0.01f, 0.1f, 0f);
+      bullet3.GetComponent<bullet_controller>().damage = bullet_damage;
+    }
+
+    void ShootSniper() {
+      Vector3 bullet_pos = transform.position;
+      bullet_pos.y += .5f;
+      GameObject bullet = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.2f, 0f);
+      bullet.GetComponent<bullet_controller>().damage = bullet_damage;
+    }
+
+    void ShootDouble() {
+      Vector3 bullet_pos = transform.position;
+      bullet_pos.y += .5f;
+      Vector3 doubleOffset = new Vector3(0.06f, 0, 0);
+      if (left) {
+        bullet_pos -= doubleOffset;
+        left = false;
+      } else {
+        bullet_pos += doubleOffset;
+        left = true;
+      }
+      GameObject bullet = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+      bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.1f, 0f);
+      bullet.GetComponent<bullet_controller>().damage = bullet_damage;
+    }
+
+    void Shoot() {
       switch (type) {
         case TOWER_TYPE.BASIC:
-          bullet_pos.y += .5f;
-          GameObject bullet0 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet0.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.1f, 0f);
-          bullet0.GetComponent<bullet_controller>().damage = 2;
+          ShootBasic();
           break;
         case TOWER_TYPE.SHOTGUN:
-          bullet_pos.y += .5f;
-          GameObject bullet1 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet1.GetComponent<bullet_controller>().bullet_velocity = new Vector3(-0.01f, 0.1f, 0f);
-          bullet1.GetComponent<bullet_controller>().damage = 1;
-          GameObject bullet2 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet2.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0f, 0.1f, 0f);
-          bullet2.GetComponent<bullet_controller>().damage = 1;
-          GameObject bullet3 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet3.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0.01f, 0.1f, 0f);
-          bullet3.GetComponent<bullet_controller>().damage = 1;
+          ShootShotgun();
           break;
         case TOWER_TYPE.SNIPER:
-          bullet_pos.y += .5f;
-          GameObject bullet4 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet4.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.2f, 0f);
-          bullet4.GetComponent<bullet_controller>().damage = 100;
+          ShootSniper();
           break;
         case TOWER_TYPE.DOUBLE:
-          bullet_pos.y += .5f;
-          Vector3 doubleOffset = new Vector3(0.06f, 0, 0);
-          if (left) {
-            bullet_pos -= doubleOffset;
-            left = false;
-          } else {
-            bullet_pos += doubleOffset;
-            left = true;
-          }
-          GameObject bullet5 = Instantiate(bullet, bullet_pos, Quaternion.identity);
-          bullet5.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0, 0.1f, 0f);
-          bullet5.GetComponent<bullet_controller>().damage = 1;
+          ShootDouble();
           break;
         default:
           break;
