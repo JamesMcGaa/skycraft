@@ -9,7 +9,7 @@ public class enemy_controller : MonoBehaviour
     public static Dictionary<int, Vector3[]> pathTypeDict;
     public GameObject enemyPrefab;
     private Vector3 startingPos;
-    
+
     void Awake(){
       startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();

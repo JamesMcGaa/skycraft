@@ -2,12 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct tower_stats {
+  public tower_stats(TOWER_TYPE tType, float fRate, GameObject tPrefab, GameObject bPrefab, int nBullets, int bDamage) {
+    type = tType;
+    fireRate = fRate;
+    towerPrefab = tPrefab;
+    bulletPrefab = bPrefab;
+    numBullets = nBullets;
+    damage = bDamage;
+  }
+  public TOWER_TYPE type {get; set;}
+  public GameObject towerPrefab {get; set;}
+  public GameObject bulletPrefab {get; set;}
+  public float fireRate {get; set;}
+  public int numBullets {get; set;}
+  public int damage {get; set;}
+}
+
 public class skyship_controller : MonoBehaviour
 {
-    private bool frontPlaced;
-    private bool leftPlaced;
-    private bool rightPlaced;
-    private GameObject frontTower;
+    private TOWER_TYPE placed = TOWER_TYPE.NULL;
     private GameObject leftTower;
     private GameObject rightTower;
     private Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
@@ -20,6 +34,9 @@ public class skyship_controller : MonoBehaviour
     public Vector3 velocity = new Vector3(0f, 0f, 0f);
     public float max_velocity = 6f;
 
+    public Dictionary<string, TOWER_TYPE> hotkeys = new Dictionary<string, TOWER_TYPE>();
+    public Dictionary<TOWER_TYPE, int> upgradeLevels = new Dictionary<TOWER_TYPE, int>();
+
     // public GameObject mainGunProj;
     // public float next_fire = -1f;
     // public float fire_rate = .1f;
@@ -29,16 +46,78 @@ public class skyship_controller : MonoBehaviour
     public static float MAX_X = 11.5f;
     public static float MAX_Y = 6f;
 
+
     public GameObject basicTower;
     public GameObject shottyTower;
     public GameObject sniperTower;
     public GameObject doubleTower;
 
+    public GameObject basicBullet;
+    public GameObject shottyBullet;
+    public GameObject sniperBullet;
+    public GameObject doubleBullet;
+
+    public Dictionary<TOWER_TYPE, List<tower_stats> > upgradePaths = new Dictionary<TOWER_TYPE, List<tower_stats> >();
+
+    public GameObject explosion;
+
+
+    void SetStats(GameObject tower, tower_stats stats) {
+      tower_controller controller = tower.GetComponent<tower_controller>();
+      controller.type = stats.type;
+      controller.bulletPrefab = stats.bulletPrefab;
+      controller.numBullets = stats.numBullets;
+      controller.bullet_damage = stats.damage;
+      controller.fire_rate = stats.fireRate;
+    }
+
+    void EquipTowers(TOWER_TYPE type, int upgradeLevel) {
+      tower_stats stats = upgradePaths[type][upgradeLevel];
+      leftTower = Instantiate(stats.towerPrefab, transform.position + leftTowerOffset, Quaternion.identity);
+      rightTower = Instantiate(stats.towerPrefab, transform.position + rightTowerOffset, Quaternion.identity);
+      SetStats(leftTower, stats);
+      SetStats(rightTower, stats);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-    QualitySettings.vSyncCount = 1;
-      frontPlaced = false;
+      QualitySettings.vSyncCount = 1;
+      placed = TOWER_TYPE.NULL;
+
+      upgradeLevels[TOWER_TYPE.BASIC] = 0;
+      upgradeLevels[TOWER_TYPE.SHOTGUN] = 0;
+      upgradeLevels[TOWER_TYPE.SNIPER] = 0;
+      upgradeLevels[TOWER_TYPE.DOUBLE] = 0;
+
+      hotkeys["1"] = TOWER_TYPE.BASIC;
+      hotkeys["2"] = TOWER_TYPE.SHOTGUN;
+      hotkeys["3"] = TOWER_TYPE.SNIPER;
+      hotkeys["4"] = TOWER_TYPE.DOUBLE;
+
+      upgradePaths[TOWER_TYPE.BASIC] = new List<tower_stats> {
+        new tower_stats(TOWER_TYPE.BASIC, .1f, basicTower, basicBullet, 1, 2),
+        new tower_stats(TOWER_TYPE.BASIC, .1f, basicTower, basicBullet, 1, 4),
+        new tower_stats(TOWER_TYPE.BASIC, .05f, basicTower, basicBullet, 1, 5)
+      };
+
+      upgradePaths[TOWER_TYPE.SHOTGUN] = new List<tower_stats> {
+        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 3, 1),
+        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 4, 2),
+        new tower_stats(TOWER_TYPE.SHOTGUN, .1f, shottyTower, shottyBullet, 5, 3)
+      };
+
+      upgradePaths[TOWER_TYPE.SNIPER] = new List<tower_stats> {
+        new tower_stats(TOWER_TYPE.SNIPER, .2f, sniperTower, sniperBullet, 1, 5),
+        new tower_stats(TOWER_TYPE.SNIPER, .15f, sniperTower, sniperBullet, 1, 10),
+        new tower_stats(TOWER_TYPE.SNIPER, .1f, sniperTower, sniperBullet, 1, 20)
+      };
+
+      upgradePaths[TOWER_TYPE.DOUBLE] = new List<tower_stats> {
+        new tower_stats(TOWER_TYPE.DOUBLE, .05f, doubleTower, doubleBullet, 1, 2),
+        new tower_stats(TOWER_TYPE.DOUBLE, .05f, doubleTower, doubleBullet, 1, 4),
+        new tower_stats(TOWER_TYPE.DOUBLE, .025f, doubleTower, doubleBullet, 1, 5)
+      };
     }
 
     // Update is called once per frame
@@ -108,32 +187,25 @@ public class skyship_controller : MonoBehaviour
         }
         transform.position = clipped;
 
-
-        if (Input.GetKey("1") && !frontPlaced) {
-          frontPlaced = true;
-          leftTower = Instantiate(basicTower, transform.position + leftTowerOffset, Quaternion.identity);
-          rightTower = Instantiate(basicTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("2") && !frontPlaced) {
-          frontPlaced = true;
-          leftTower = Instantiate(shottyTower, transform.position + leftTowerOffset, Quaternion.identity);
-          rightTower = Instantiate(shottyTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("3") && !frontPlaced) {
-          frontPlaced = true;
-          leftTower = Instantiate(sniperTower, transform.position + leftTowerOffset, Quaternion.identity);
-          rightTower = Instantiate(sniperTower, transform.position + rightTowerOffset, Quaternion.identity);
-        } else if (Input.GetKey("4") && !frontPlaced) {
-          frontPlaced = true;
-          leftTower = Instantiate(doubleTower, transform.position + leftTowerOffset, Quaternion.identity);
-          rightTower = Instantiate(doubleTower, transform.position + rightTowerOffset, Quaternion.identity);
+        foreach(string hotkey in hotkeys.Keys) {
+          if (Input.GetKey(hotkey) && placed == TOWER_TYPE.NULL) {
+            TOWER_TYPE type = hotkeys[hotkey];
+            placed = type;
+            EquipTowers(type, upgradeLevels[type]);
+          }
         }
 
-        if (Input.GetKey("space") && frontPlaced) {
+        if (Input.GetKey("u") && placed != TOWER_TYPE.NULL) {
+          UpgradeTower(placed);
+        }
+
+        if (Input.GetKey("space") && placed != TOWER_TYPE.NULL) {
           Destroy(leftTower);
           Destroy(rightTower);
-          frontPlaced = false;
+          placed = TOWER_TYPE.NULL;
         }
 
-        if (frontPlaced) {
+        if (placed != TOWER_TYPE.NULL) {
           rightTower.transform.position = transform.position + rightTowerOffset;
           leftTower.transform.position = transform.position + leftTowerOffset;
         }
@@ -147,7 +219,51 @@ public class skyship_controller : MonoBehaviour
         // }
      }
 
+     void UpgradeTower(TOWER_TYPE type) {
+       int maxLevel = upgradePaths[type].Count - 1;
+       if (upgradeLevels[type] < maxLevel) {
+         upgradeLevels[type]++;
+         Destroy(leftTower);
+         Destroy(rightTower);
+         EquipTowers(type, upgradeLevels[type]);
+       }
+     }
+
      void UpdateTowerPos() {
 
+     }
+     void OnTriggerEnter2D(Collider2D collision)
+     {
+        print("start of collision");
+        if(collision.gameObject.GetComponent<bullet_controller>())
+        {
+            int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
+            BULLET_TYPE type = collision.gameObject.GetComponent<bullet_controller>().type;
+            print("in first if");
+            if(type == BULLET_TYPE.ENEMY)
+            {
+                Destroy(collision.gameObject);
+                hp -= damage;
+                if(hp <= 0)
+                {
+                    Destroy(gameObject);
+                    if (placed != TOWER_TYPE.NULL) {
+                      Destroy(rightTower);
+                      Destroy(leftTower);
+                    }
+        
+                    Instantiate(explosion, transform.position, Quaternion.identity);
+                }
+                print("skyship taking damage");
+            }
+            
+        }
+
+
+        
+ 
+
+        
+        
      }
 }
