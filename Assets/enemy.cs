@@ -33,13 +33,13 @@ public class enemy : MonoBehaviour
         enemy archetype = enemy_controller.enemyTypeDict[enemyType];
         sprite = archetype.sprite;
         stats = new Dictionary<string, int>(archetype.stats);
-        print(stats["hp"]);
+        //print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
         Vector3[] path = enemy_controller.pathTypeDict[pathType];
         for(int i=0; i < path.Length; i++){
             waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
-        print(waypoints[0]);
+        //print(waypoints[0]);
         transform.position = waypoints[0];
 
         shooting = false;
@@ -71,10 +71,8 @@ public class enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        print(stats["hp"]);
-        print(collision.gameObject.name);
+        //print(stats["hp"]);
 
-        print("bool" + collision.gameObject.GetComponent<bullet_controller>());
         if(collision.gameObject.GetComponent<bullet_controller>())
         {
             int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
@@ -86,6 +84,7 @@ public class enemy : MonoBehaviour
                 if(stats["hp"] <= 0)
                 {
                     Destroy(gameObject);
+                    if(shooting){Destroy(shooter);}
                     Instantiate(explosion, transform.position, Quaternion.identity);
                 }
             }

@@ -94,6 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490d7ea998dd54ff79116f5081e64f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 5286125446995196513, guid: 361da05c7c28543e483fef8e545b29c1, type: 3}
-  type: 4
+  numBullets: 0
+  bulletPrefab: {fileID: 5286125446995196513, guid: 361da05c7c28543e483fef8e545b29c1,
+    type: 3}
+  bullet_damage: 0
+  type: 5
   fire_rate: 0.1

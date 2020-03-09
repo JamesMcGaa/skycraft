@@ -46,6 +46,7 @@ public class skyship_controller : MonoBehaviour
     public static float MAX_X = 11.5f;
     public static float MAX_Y = 6f;
 
+
     public GameObject basicTower;
     public GameObject shottyTower;
     public GameObject sniperTower;
@@ -57,6 +58,9 @@ public class skyship_controller : MonoBehaviour
     public GameObject doubleBullet;
 
     public Dictionary<TOWER_TYPE, List<tower_stats> > upgradePaths = new Dictionary<TOWER_TYPE, List<tower_stats> >();
+
+    public GameObject explosion;
+
 
     void SetStats(GameObject tower, tower_stats stats) {
       tower_controller controller = tower.GetComponent<tower_controller>();
@@ -227,5 +231,34 @@ public class skyship_controller : MonoBehaviour
 
      void UpdateTowerPos() {
 
+     }
+     void OnTriggerEnter2D(Collider2D collision)
+     {
+        print("start of collision");
+        if(collision.gameObject.GetComponent<bullet_controller>())
+        {
+            int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
+            BULLET_TYPE type = collision.gameObject.GetComponent<bullet_controller>().type;
+            print("in first if");
+            if(type == BULLET_TYPE.ENEMY)
+            {
+                Destroy(collision.gameObject);
+                hp -= damage;
+                if(hp <= 0)
+                {
+                    Destroy(gameObject);
+                    Instantiate(explosion, transform.position, Quaternion.identity);
+                }
+                print("skyship taking damage");
+            }
+            
+        }
+
+
+        
+ 
+
+        
+        
      }
 }
