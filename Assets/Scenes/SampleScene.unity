@@ -151,6 +151,14 @@ MonoBehaviour:
     type: 3}
   doubleTower: {fileID: 4124563381387238951, guid: ca88a9b9503ed40289e27379acc9a6f7,
     type: 3}
+  basicBullet: {fileID: 3931461120256483801, guid: faea70c09a1fd4712aac1fec063bbe2a,
+    type: 3}
+  shottyBullet: {fileID: 8510182082075298718, guid: f6c3314c5dd5440fbb053df52eedc7e1,
+    type: 3}
+  sniperBullet: {fileID: 2377446391703082277, guid: 2f3c1842ba6034d4db600628c804fa2a,
+    type: 3}
+  doubleBullet: {fileID: 4372510976743452178, guid: 7b1e2be587d194b74a335e399c03f4c9,
+    type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

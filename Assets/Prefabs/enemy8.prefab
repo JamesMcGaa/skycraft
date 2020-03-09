@@ -147,6 +147,8 @@ MonoBehaviour:
   sprite: {fileID: 0}
   explosion: {fileID: 7968499751432089711, guid: 29e4c460a24af4ed4ac7f3d41598ed25,
     type: 3}
+  hpbarPrefab: {fileID: 6409917938753115921, guid: 6933ad37c1e9b44e8ba304d2f313df83,
+    type: 3}
   pathType: 0
   waypoints: []
   enemyTower: {fileID: 5945360991330417837, guid: 7ca3e306a01dd40d1b3819ac81f7e204,
