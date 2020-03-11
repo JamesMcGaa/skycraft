@@ -10,6 +10,7 @@ public class enemy : MonoBehaviour
     public GameObject explosion;
 
     public int pathType;
+    public GameObject hpBarPrefab;
     public List<Vector3> waypoints = new List<Vector3>();
     private Dictionary<string, int> stats; //we need hp, attack rate, damage, speed
     private int curr_pt = 1;
@@ -18,9 +19,10 @@ public class enemy : MonoBehaviour
     private GameObject shooter;
     public GameObject enemyTower;
     private float scale = 1f;
-    public enemy(int ty, int pathty){
+    public enemy(int ty, int pathty, GameObject hpbp){
         enemyType = ty;
         pathType = pathty;
+        hpBarPrefab = Instantiate(hpbp) as GameObject;
     }
     //use this only for defining enemy archetypes
     public enemy(Sprite spr, Dictionary<string, int> sts, float scalo = 1f){
@@ -46,6 +48,8 @@ public class enemy : MonoBehaviour
         transform.localScale = new Vector3(scale,scale,0f);
         //set initial phase
         phase = UnityEngine.Random.Range(0f, 2f * (float)Math.PI);
+        hpBarPrefab = Instantiate(hpBarPrefab) as GameObject;
+        stats["original_hp"] = stats["hp"];
     }
 
     // Update is called once per frame
@@ -76,6 +80,8 @@ public class enemy : MonoBehaviour
         if (shooting) {
             shooter.transform.position = transform.position;
         }
+        hpBarPrefab.transform.position = transform.position + new Vector3(0f, .5f, 0f);
+        Debug.Log(hpBarPrefab);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -99,8 +105,11 @@ public class enemy : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 stats["hp"]-= damage;
+                Vector3 scaleChange = new Vector3(.25f * (float) stats["hp"] / (float) stats["original_hp"], .25f, .25f);
+                hpBarPrefab.transform.localScale = scaleChange;
                 if(stats["hp"] <= 0)
                 {
+                    Destroy(hpBarPrefab);
                     Destroy(gameObject);
                     if(shooting){Destroy(shooter);}
                     Instantiate(explosion, transform.position, Quaternion.identity);

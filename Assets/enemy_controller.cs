@@ -8,6 +8,7 @@ public class enemy_controller : MonoBehaviour
     public static Dictionary<int, enemy> enemyTypeDict;
     public static Dictionary<int, Vector3[]> pathTypeDict;
     public GameObject enemyPrefab;
+    public GameObject enemyhpBarPrefab;
     private Vector3 startingPos;
 
     public enemy_generator wave1;
@@ -73,6 +74,7 @@ public class enemy_controller : MonoBehaviour
       KeyValuePair<int,int> enemyInfo = wave1.getOutcome();
       enemy.GetComponent<enemy>().enemyType = enemyInfo.Key;
       enemy.GetComponent<enemy>().pathType = enemyInfo.Value;
+      enemy.GetComponent<enemy>().hpBarPrefab = enemyhpBarPrefab;
       Invoke("Spawn", 1f);
     }
 
