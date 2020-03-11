@@ -37,14 +37,5 @@ public class bullet_controller : MonoBehaviour
 
       Invoke("Move", .01f);
     }
-    
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        if(collision.gameObject.GetComponent<bullet_controller>())
-        {
-            //should do nothing if bullet to bullet collision but it still has bug
-        }
-    }
 
 }

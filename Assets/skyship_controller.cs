@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public struct tower_stats {
   public tower_stats(TOWER_TYPE tType, float fRate, GameObject tPrefab, GameObject bPrefab, int nBullets, int bDamage) {
@@ -28,7 +29,7 @@ public class skyship_controller : MonoBehaviour
     private Vector3 frontTowerOffset = new Vector3(0f, 0.2f, 0f);
     private Vector3 leftTowerOffset = new Vector3(-.4f, .13f, 0f);
     private Vector3 rightTowerOffset = new Vector3(.4f, .13f, 0f);
-
+    private static int money = 0;
 
     public float acceleration = 4f;
     public float hp = 100f;
@@ -57,6 +58,8 @@ public class skyship_controller : MonoBehaviour
     public GameObject shottyBullet;
     public GameObject sniperBullet;
     public GameObject doubleBullet;
+
+    public TextMeshPro moneyText;
 
     public Dictionary<TOWER_TYPE, List<tower_stats> > upgradePaths = new Dictionary<TOWER_TYPE, List<tower_stats> >();
 
@@ -126,6 +129,8 @@ public class skyship_controller : MonoBehaviour
 
      void Update () {
          Vector3 pos = transform.position;
+
+         moneyText.text = "$ " + money.ToString();
 
         //use this to see if we are moving diagonally, and then slow down
          int count = 0;
@@ -222,6 +227,10 @@ public class skyship_controller : MonoBehaviour
         // }
      }
 
+     public static void AwardMoney(int amt) {
+       money += amt;
+     }
+
      void UpgradeTower(TOWER_TYPE type) {
        int maxLevel = upgradePaths[type].Count - 1;
        if (upgradeLevels[type] < maxLevel) {
@@ -254,19 +263,19 @@ public class skyship_controller : MonoBehaviour
                       Destroy(rightTower);
                       Destroy(leftTower);
                     }
-        
+
                     Instantiate(explosion, transform.position, Quaternion.identity);
                 }
                 print("skyship taking damage");
             }
-            
+
         }
 
 
-        
- 
 
-        
-        
+
+
+
+
      }
 }
