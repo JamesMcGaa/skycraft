@@ -250,6 +250,11 @@ public class skyship_controller : MonoBehaviour
                 if(hp <= 0)
                 {
                     Destroy(gameObject);
+                    if (placed != TOWER_TYPE.NULL) {
+                      Destroy(rightTower);
+                      Destroy(leftTower);
+                    }
+        
                     Instantiate(explosion, transform.position, Quaternion.identity);
                 }
                 print("skyship taking damage");

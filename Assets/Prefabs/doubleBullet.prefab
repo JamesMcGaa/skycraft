@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet_velocity: {x: 0, y: 0, z: 0}
   damage: 1
+  type: 0
 --- !u!61 &4243658347168157383
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -134,7 +135,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 4372510976743452178}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
