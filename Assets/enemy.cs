@@ -104,7 +104,7 @@ public class enemy : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
         }
         */
-        
+
         if(collision.gameObject.GetComponent<bullet_controller>())
         {
             int damage = collision.gameObject.GetComponent<bullet_controller>().damage;
@@ -115,12 +115,13 @@ public class enemy : MonoBehaviour
                 stats["hp"]-= damage;
                 if(stats["hp"] <= 0)
                 {
+                    skyship_controller.AwardMoney(stats["money"]);
                     Destroy(gameObject);
                     if(shooting){Destroy(shooter);}
                     Instantiate(explosion, transform.position, Quaternion.identity);
                 }
             }
-            
+
         }
     }
 }

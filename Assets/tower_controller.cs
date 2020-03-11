@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum TOWER_TYPE {
   NULL,
@@ -46,15 +47,13 @@ public class tower_controller : MonoBehaviour
     void ShootShotgun() {
       Vector3 bullet_pos = transform.position;
       bullet_pos.y += .5f;
-      GameObject bullet1 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
-      bullet1.GetComponent<bullet_controller>().bullet_velocity = new Vector3(-0.01f, 0.1f, 0f);
-      bullet1.GetComponent<bullet_controller>().damage = bullet_damage;
-      GameObject bullet2 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
-      bullet2.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0f, 0.1f, 0f);
-      bullet2.GetComponent<bullet_controller>().damage = bullet_damage;
-      GameObject bullet3 = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
-      bullet3.GetComponent<bullet_controller>().bullet_velocity = new Vector3(0.01f, 0.1f, 0f);
-      bullet3.GetComponent<bullet_controller>().damage = bullet_damage;
+      float spray_width = 0.025f;
+      for (int i = 0; i < numBullets; ++i) {
+        GameObject bullet = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
+        float x_velocity = -spray_width + (2*i*spray_width)/(float)(numBullets-1);
+        bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(x_velocity, (float)Math.Sqrt(0.01f - x_velocity*x_velocity), 0f);
+        bullet.GetComponent<bullet_controller>().damage = bullet_damage;
+      }
     }
 
     void ShootSniper() {

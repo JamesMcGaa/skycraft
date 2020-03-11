@@ -21,11 +21,11 @@ public class enemy_controller : MonoBehaviour
         //ENEMIES///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}}, 1.5f)
+        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}, {"money", 10}}, 1.5f)
         );
         enemyTypeDict.Add(1, new enemy(
             Resources.Load<Sprite>("enemy2"),
-            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}}, .75f)
+            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}, {"money", 5}}, .75f)
         );
 
         enemyTypeDict.Add(100, new enemy(
@@ -87,7 +87,7 @@ public class enemy_controller : MonoBehaviour
 
     void Spawn()
     {
-        
+
       GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
       KeyValuePair<int,int> enemyInfo = wave1.getOutcome();
       enemy.GetComponent<enemy>().enemyType = enemyInfo.Key;
