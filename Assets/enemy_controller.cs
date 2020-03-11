@@ -12,7 +12,7 @@ public class enemy_controller : MonoBehaviour
     private Vector3 startingPos;
 
     public enemy_generator wave1;
-
+    private float timer = 0;
     void Awake(){
       startingPos = new Vector3(0, 0, 0);
     	enemyTypeDict = new Dictionary<int, enemy>();
@@ -22,12 +22,17 @@ public class enemy_controller : MonoBehaviour
         //ENEMIES///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}}, 1.5f)
+        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}, {"money", 10}}, 1.5f)
         );
         enemyTypeDict.Add(1, new enemy(
             Resources.Load<Sprite>("enemy2"),
-            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}}, .75f)
+            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}, {"money", 5}}, .75f)
         );
+
+        enemyTypeDict.Add(100, new enemy(
+        	Resources.Load<Sprite>("enemy7"),
+        	new Dictionary<string, int> {{"hp",500}, {"ar",1}, {"dmg",3}, {"spd",5}}, 6f)
+            );
         ///////////////////////////////
 
 
@@ -44,6 +49,14 @@ public class enemy_controller : MonoBehaviour
             new Vector3(.9f, .9f, 0),
             new Vector3(0, .9f, 0),
             new Vector3(1.5f, -.5f,0)
+        });
+        pathTypeDict.Add(100, new Vector3[]{
+            new Vector3(.1f, .9f, 0),
+            new Vector3(.9f, .9f, 0),
+            new Vector3(.1f, .1f, 0),
+            new Vector3(.9f, .1f, 0),
+            new Vector3(.1f, .1f, 0),
+            new Vector3(-1000f, -1000f, -1000f)
         });
         ///////////////////////////////
 
@@ -64,7 +77,13 @@ public class enemy_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        timer += Time.deltaTime;
+        if(timer >= 10f){ //boss 1
+            GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
+            enemy.GetComponent<enemy>().enemyType = 100;
+            enemy.GetComponent<enemy>().pathType = 100;
+            timer = -10000;
+        }
     }
 
     void Spawn()
