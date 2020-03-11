@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum TOWER_TYPE {
   NULL,
@@ -50,7 +51,7 @@ public class tower_controller : MonoBehaviour
       for (int i = 0; i < numBullets; ++i) {
         GameObject bullet = Instantiate(bulletPrefab, bullet_pos, Quaternion.identity);
         float x_velocity = -spray_width + (2*i*spray_width)/(float)(numBullets-1);
-        bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(x_velocity, 0.1f, 0f);
+        bullet.GetComponent<bullet_controller>().bullet_velocity = new Vector3(x_velocity, (float)Math.Sqrt(0.01f - x_velocity*x_velocity), 0f);
         bullet.GetComponent<bullet_controller>().damage = bullet_damage;
       }
     }
