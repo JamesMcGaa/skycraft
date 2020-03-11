@@ -232,8 +232,10 @@ public class skyship_controller : MonoBehaviour
      }
 
      void UpgradeTower(TOWER_TYPE type) {
+       int upgradeCost = 100;
        int maxLevel = upgradePaths[type].Count - 1;
-       if (upgradeLevels[type] < maxLevel) {
+       if (upgradeLevels[type] < maxLevel && money >= upgradeCost) {
+         money -= upgradeCost;
          upgradeLevels[type]++;
          Destroy(leftTower);
          Destroy(rightTower);

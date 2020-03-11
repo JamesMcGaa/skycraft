@@ -64,6 +64,8 @@ public class enemy : MonoBehaviour
         phase = UnityEngine.Random.Range(0f, 2f * (float)Math.PI);
         hpBarPrefab = Instantiate(hpBarPrefab) as GameObject;
         stats["original_hp"] = stats["hp"];
+        Vector3 scaleChange = new Vector3(.25f * (float) stats["hp"] * stats["width"] / (float) stats["original_hp"], .25f, .25f);
+        hpBarPrefab.transform.localScale = scaleChange;
     }
 
     // Update is called once per frame
@@ -119,7 +121,7 @@ public class enemy : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 stats["hp"]-= damage;
-                Vector3 scaleChange = new Vector3(.25f * (float) stats["hp"] / (float) stats["original_hp"], .25f, .25f);
+                Vector3 scaleChange = new Vector3(.25f * (float) stats["hp"] * stats["width"] / (float) stats["original_hp"], .25f, .25f);
                 hpBarPrefab.transform.localScale = scaleChange;
                 if(stats["hp"] <= 0)
                 {

@@ -22,16 +22,16 @@ public class enemy_controller : MonoBehaviour
         //ENEMIES///////////////////////
         enemyTypeDict.Add(0, new enemy(
         	Resources.Load<Sprite>("enemy8"),
-        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}, {"money", 10}}, 1.5f)
+        	new Dictionary<string, int> {{"hp",20}, {"ar",1}, {"dmg",1}, {"spd",3}, {"money", 10}, {"width", 1}}, 1.5f)
         );
         enemyTypeDict.Add(1, new enemy(
             Resources.Load<Sprite>("enemy2"),
-            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}, {"money", 5}}, .75f)
+            new Dictionary<string, int> {{"hp",3}, {"ar",1}, {"dmg",1}, {"spd",8}, {"money", 5}, {"width", 1}}, .75f)
         );
 
         enemyTypeDict.Add(100, new enemy(
         	Resources.Load<Sprite>("enemy7"),
-        	new Dictionary<string, int> {{"hp",500}, {"ar",1}, {"dmg",3}, {"spd",5}}, 6f)
+        	new Dictionary<string, int> {{"hp",500}, {"ar",1}, {"dmg",3}, {"spd",5}, {"money", 200}, {"width", 5}}, 6f)
             );
         ///////////////////////////////
 
@@ -82,6 +82,7 @@ public class enemy_controller : MonoBehaviour
             GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
             enemy.GetComponent<enemy>().enemyType = 100;
             enemy.GetComponent<enemy>().pathType = 100;
+            enemy.GetComponent<enemy>().hpBarPrefab = enemyhpBarPrefab;
             timer = -10000;
         }
     }
