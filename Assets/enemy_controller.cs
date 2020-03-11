@@ -68,7 +68,7 @@ public class enemy_controller : MonoBehaviour
 
     void Spawn()
     {
-        
+
       GameObject enemy = Instantiate(enemyPrefab, startingPos, Quaternion.identity);
       KeyValuePair<int,int> enemyInfo = wave1.getOutcome();
       enemy.GetComponent<enemy>().enemyType = enemyInfo.Key;
