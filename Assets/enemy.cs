@@ -39,9 +39,23 @@ public class enemy : MonoBehaviour
         //print(stats["hp"]);
         GetComponent<SpriteRenderer>().sprite = sprite;
         Vector3[] path = enemy_controller.pathTypeDict[pathType];
+        bool repeat = false;
+
         for(int i=0; i < path.Length; i++){
+            if(path[i] == new Vector3(-1000f, -1000f, -1000f)){
+                repeat = true;
+                break;
+            }
             waypoints.Add(enemy_controller.processWaypt(path[i]));
         }
+        if(repeat){
+            for(int kk = 0; kk < 100; kk++){
+                for(int i=0; i < path.Length-1; i++){
+                    waypoints.Add(enemy_controller.processWaypt(path[i]));
+                }
+            }
+        }
+        print(waypoints.Count);
         transform.position = waypoints[0];
         transform.localScale = new Vector3(scale,scale,0f);
         //set initial phase
